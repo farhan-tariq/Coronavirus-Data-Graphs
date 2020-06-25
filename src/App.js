@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {fetchGlobalData} from './api';
+import Cards from './components/cards/cards';
+import Nav from './components/layout/nav.jsx';
+import ChartWrapper from "./components/charts/ChartWrapper";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+    state = {
+        globalData: {},
+    }
+
+    async componentDidMount() {
+        const globalData = await fetchGlobalData();
+        this.setState({globalData});
+    }
+
+
+    render() {
+        const {globalData} = this.state;
+        return (
+            <div>
+                <Nav/>
+                <Cards data={globalData}/>
+                <ChartWrapper/>
+            </div>
+        )
+    }
 }
 
 export default App;
